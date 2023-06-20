@@ -33,7 +33,7 @@ struct Dievas {
 };
 
 void resultatas(Dievas dievas){
-  ofstream rez("rez.txt");
+  ofstream rez("U2_rez.txt");
   rez << dievas.vardas << dievas.tasku_suma();
   rez.close();
 }
@@ -61,7 +61,7 @@ int isrinktas_dievas(int dievu_kiekis, Dievas dievai[]) {
 
 void skaitymas(int& kauliuku_kiekis,int& dievu_kiekis, Dievas dievai[]) {
   
-  ifstream data("data.txt");
+  ifstream data("U2.txt");
   data >> dievu_kiekis >> kauliuku_kiekis;
   
   for(int i = 0; i < dievu_kiekis; i++) {
