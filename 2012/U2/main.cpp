@@ -33,7 +33,7 @@ struct Dievas {
 };
 
 void resultatas(Dievas dievas){
-  ofstream rez("U2_rez.txt");
+  ofstream rez("U2rez.txt");
   rez << dievas.vardas << dievas.tasku_suma();
   rez.close();
 }
