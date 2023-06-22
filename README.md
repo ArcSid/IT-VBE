@@ -9,3 +9,5 @@ ir jas įkeliant čia.
 
         $ cd ./YEAR/TASK_NR
         $ g++ main.cpp -o main & ./main.exe
+
+::
