@@ -6,15 +6,18 @@ const int reikiamu_fig_kiekis[6] = {8, 2, 2, 2, 1, 1};
 int kiek_rinkiniu(int figureles[])
 {
   int kiekis = 0;
-  while(1)
+  while (1)
+  {
+    for (int i = 0; i < 6; i++)
     {
-      for (int i = 0; i<6; i++)
-        {
-          if (figureles[i] - reikiamu_fig_kiekis[i] <0) {return kiekis;}
-          figureles[i] -= reikiamu_fig_kiekis[i];
-        }
-      kiekis++;
+      if (figureles[i] - reikiamu_fig_kiekis[i] < 0)
+      {
+        return kiekis;
+      }
+      figureles[i] -= reikiamu_fig_kiekis[i];
     }
+    kiekis++;
+  }
 }
 
 void skaitymas(int figureles[])
@@ -23,14 +26,14 @@ void skaitymas(int figureles[])
   int kiekis = 0;
   int temp = 0;
   data >> kiekis;
-  for (int i = 0; i < kiekis;i++)
+  for (int i = 0; i < kiekis; i++)
+  {
+    for (int i = 0; i < 6; i++)
     {
-      for (int i = 0;i<6;i++)
-        {
-          data >> temp;
-          figureles[i] += temp;
-        }
+      data >> temp;
+      figureles[i] += temp;
     }
+  }
 }
 
 int main()
@@ -42,4 +45,3 @@ int main()
   rez << kiekis << endl;
   rez.close();
 }
-

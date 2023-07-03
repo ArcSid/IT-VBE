@@ -6,14 +6,17 @@ void spausdinimas(int nominalu_kiekis_gilijos, int nominalu_kiekis_eglijos,
                   int kiek_gavo_gilijos_nuo_eglijos[],
                   int kiek_gavo_eglijos_nuo_gilijos[],
                   int gilijos_nominalu_sarasas[],
-                  int eglijos_nominalu_sarasas[]) {
+                  int eglijos_nominalu_sarasas[])
+{
   ofstream rez("U1rez.txt");
-  for (int i = 0; i < nominalu_kiekis_eglijos; i++) {
+  for (int i = 0; i < nominalu_kiekis_eglijos; i++)
+  {
     rez << eglijos_nominalu_sarasas[i] << " "
         << kiek_gavo_gilijos_nuo_eglijos[i] << endl;
   }
   rez << kiek_monetu_gilijos_mokinys << endl;
-  for (int i = 0; i < nominalu_kiekis_gilijos; i++) {
+  for (int i = 0; i < nominalu_kiekis_gilijos; i++)
+  {
     rez << gilijos_nominalu_sarasas[i] << " "
         << kiek_gavo_eglijos_nuo_gilijos[i] << endl;
   }
@@ -21,11 +24,14 @@ void spausdinimas(int nominalu_kiekis_gilijos, int nominalu_kiekis_eglijos,
 }
 
 int keitimas(int nominalu_kiekis, int pinigu_suma, int nominalai[],
-             int panaudojimas[]) {
+             int panaudojimas[])
+{
   int monetu_suma = 0;
-  for (int i = 0; i < nominalu_kiekis; i++) {
+  for (int i = 0; i < nominalu_kiekis; i++)
+  {
     int kiek_kartu_panaudota = 0;
-    while (pinigu_suma >= nominalai[i]) {
+    while (pinigu_suma >= nominalai[i])
+    {
       pinigu_suma -= nominalai[i];
       kiek_kartu_panaudota++;
       monetu_suma++;
@@ -36,9 +42,11 @@ int keitimas(int nominalu_kiekis, int pinigu_suma, int nominalai[],
 }
 
 int sumavimas(int nominalu_kiekis, int nominalu_sarasas[],
-              int studento_pinigai_pagal_nominala[]) {
+              int studento_pinigai_pagal_nominala[])
+{
   int suma = 0;
-  for (int i = 0; i < nominalu_kiekis; i++) {
+  for (int i = 0; i < nominalu_kiekis; i++)
+  {
     suma += nominalu_sarasas[i] * studento_pinigai_pagal_nominala[i];
   }
   return suma;
@@ -48,25 +56,31 @@ void skaitymas(int gilijos_nominalu_sarasas[],
                int gilijos_mokinio_turimos_monetos_pagal_nominalus[],
                int &gilijos_nominalai, int eglijos_nominalu_sarasas[],
                int eglijos_mokinio_turimos_monetos_pagal_nominalus[],
-               int &eglijos_nominalai) {
+               int &eglijos_nominalai)
+{
   fstream data("U1.txt");
   data >> gilijos_nominalai;
-  for (int i = 0; i < gilijos_nominalai; i++) {
+  for (int i = 0; i < gilijos_nominalai; i++)
+  {
     data >> gilijos_nominalu_sarasas[i];
   }
-  for (int i = 0; i < gilijos_nominalai; i++) {
+  for (int i = 0; i < gilijos_nominalai; i++)
+  {
     data >> gilijos_mokinio_turimos_monetos_pagal_nominalus[i];
   }
   data >> eglijos_nominalai;
-  for (int i = 0; i < eglijos_nominalai; i++) {
+  for (int i = 0; i < eglijos_nominalai; i++)
+  {
     data >> eglijos_nominalu_sarasas[i];
   }
-  for (int i = 0; i < eglijos_nominalai; i++) {
+  for (int i = 0; i < eglijos_nominalai; i++)
+  {
     data >> eglijos_mokinio_turimos_monetos_pagal_nominalus[i];
   }
 }
 
-int main() {
+int main()
+{
   int gilijos_nominalu_sarasas[50];
   int gilijos_mokinio_turimos_monetos_pagal_nominalus[50];
   int gilijos_nominalai = 0;
