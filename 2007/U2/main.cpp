@@ -11,8 +11,7 @@ struct Grybautojas
     int lepsiai = 0;
     int grybu_kiekis()
     {
-        int grybai = baravykai + raudonikiai + lepsiai;
-        return grybai;
+        return baravykai + raudonikiai + lepsiai;
     }
 };
 
@@ -43,26 +42,24 @@ void skaitymas(int &grybautoju_kiekis, Grybautojas grybautojai[])
 
 int duagiausiai_grybu(int kiekis, Grybautojas grybautojai[])
 {
-    int max = 0;
-    int indicator;
+    int max_indicator=0;
     for (int i = 0; i < kiekis; i++)
     {
-        if (max < grybautojai[i].grybu_kiekis())
+        if (grybautojai[max_indicator].grybu_kiekis() < grybautojai[i].grybu_kiekis())
         {
-            max = grybautojai[i].grybu_kiekis();
-            indicator = i;
+            max_indicator = i;
         }
     }
-    return indicator;
+    return max_indicator;
 }
-void rez(int grybautoju_kiekis, Grybautojas grybautojai[], int daugiausiai)
+void rez(int grybautoju_kiekis, Grybautojas grybautojai[], int daugiausiai_surinkes)
 {
     ofstream rez("U2rez.txt");
     for (int i = 0; i < grybautoju_kiekis; i++)
     {
         rez << grybautojai[i].name << grybautojai[i].baravykai << " " << grybautojai[i].raudonikiai << " " << grybautojai[i].lepsiai << endl;
     }
-    rez << grybautojai[daugiausiai].name << grybautojai[daugiausiai].grybu_kiekis() << endl;
+    rez << grybautojai[daugiausiai_surinkes].name << grybautojai[daugiausiai_surinkes].grybu_kiekis() << endl;
 }
 
 int main()
@@ -70,6 +67,6 @@ int main()
     Grybautojas grybautojai[100];
     int grybautoju_kiekis;
     skaitymas(grybautoju_kiekis, grybautojai);
-    int daugiausiai = duagiausiai_grybu(grybautoju_kiekis, grybautojai);
-    rez(grybautoju_kiekis, grybautojai, daugiausiai);
+    int daugiausiai_surinkes = duagiausiai_grybu(grybautoju_kiekis, grybautojai);
+    rez(grybautoju_kiekis, grybautojai, daugiausiai_surinkes);
 }

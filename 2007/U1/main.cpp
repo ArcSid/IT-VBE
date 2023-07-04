@@ -2,7 +2,7 @@
 #include <fstream>
 
 using namespace std;
-void rez(int baravykai[], int raudonikiai[], int lepsiai[], int max)
+void rez(int baravykai[], int raudonikiai[], int lepsiai[], int max_diena)
 {
     ofstream rez("U1rez.txt");
     for (int i = 0; i < 31; i++)
@@ -12,7 +12,7 @@ void rez(int baravykai[], int raudonikiai[], int lepsiai[], int max)
             rez << i << " " << baravykai[i] << " " << raudonikiai[i] << " " << lepsiai[i] << endl;
         }
     }
-    rez << max << " " << baravykai[max] + raudonikiai[max] + lepsiai[max] << endl;
+    rez << max_diena << " " << baravykai[max_diena] + raudonikiai[max_diena] + lepsiai[max_diena] << endl;
 }
 
 void skaitymas(int baravykai[], int raudonikiai[], int lepsiai[])
@@ -57,6 +57,6 @@ int main()
     int raudonikiai[31] = {0};
     int lepsiai[31] = {0};
     skaitymas(baravykai, raudonikiai, lepsiai);
-    int max = diena_kai_daugiausiai_grybavo(baravykai, raudonikiai, lepsiai);
-    rez(baravykai, raudonikiai, lepsiai, max);
+    int max_diena = diena_kai_daugiausiai_grybavo(baravykai, raudonikiai, lepsiai);
+    rez(baravykai, raudonikiai, lepsiai, max_diena);
 }
