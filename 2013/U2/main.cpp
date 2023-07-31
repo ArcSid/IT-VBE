@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
 using namespace std;
 
 struct Apskritis
@@ -33,7 +34,7 @@ struct Apskritis
     }
 };
 
-struct Resultatas
+struct Rezultatas
 {
     int apskriciu_kiekis;
     vector<string> apskritis;
@@ -92,7 +93,7 @@ void skaitymas(vector<Apskritis> &Apskritys)
     }
 }
 
-void resultatu_perrasymas(vector<Apskritis> apskritys, Resultatas &resultatu_struktura)
+void resultatu_perrasymas(vector<Apskritis> apskritys, Rezultatas &resultatu_struktura)
 {
     resultatu_struktura.apskriciu_kiekis = apskritys.size();
     for (int i = 0; i < apskritys.size(); i++)
@@ -113,11 +114,23 @@ void sort(vector<Apskritis> &apskritys)
             {
                 swap(apskritys[j], apskritys[j + 1]);
             }
+            else if (apskritys[j].gyventoju_skaicius() == apskritys[j + 1].gyventoju_skaicius())
+            {
+
+                for (int k = 0; k < min(apskritys[j].pavadinimas.size(), apskritys[j + 1].pavadinimas.size()); k++)
+                {
+                    if (apskritys[j].pavadinimas[k] > apskritys[j + 1].pavadinimas[k])
+                    {
+                        swap(apskritys[j], apskritys[j + 1]);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
 
-void rez(Resultatas resultatu_struktura)
+void rez(Rezultatas resultatu_struktura)
 {
     ofstream rez("U2rez.txt");
     rez << resultatu_struktura.apskriciu_kiekis << endl;
@@ -127,11 +140,26 @@ void rez(Resultatas resultatu_struktura)
     }
 }
 
+void atspausdinti_apskritis(vector<Apskritis> apskritys)
+{
+    cout << "asdf\n";
+    for (int i = 0; i < apskritys.size(); i++)
+    {
+        cout << apskritys[i].pavadinimas << endl;
+        for (int j = 0; j < apskritys[i].miestu_gyventojai.size(); j++)
+        {
+            cout << apskritys[i].miestu_gyventojai[j] << " ";
+        }
+        cout << endl;
+    }
+}
+
 int main()
 {
     vector<Apskritis> apskritys;
-    Resultatas resultatu_struktura;
+    Rezultatas resultatu_struktura;
     skaitymas(apskritys);
+    // atspausdinti_apskritis(apskritys);
     sort(apskritys);
     resultatu_perrasymas(apskritys, resultatu_struktura);
     rez(resultatu_struktura);
