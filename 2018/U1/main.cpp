@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
+#include <cmath>
+
 using namespace std;
+
 void skaitymas(int juosteles[])
 {
     ifstream data("U1.txt");
@@ -41,26 +44,16 @@ void skaitymas(int juosteles[])
 
 int veleveliu_kiekis(int juosteles[])
 {
-    int kiekis = 0;
-    while (1)
+
+    int minimumas = min(min(juosteles[0], juosteles[1]), juosteles[2]);
+    int veleveles = minimumas / 2;
+
+    for (int i = 0; i < 3; i++)
     {
-        if (juosteles[0] - 2 >= 0)
-        {
-            if (juosteles[1] - 2 >= 0)
-            {
-                if (juosteles[2] - 2 >= 0)
-                {
-                    kiekis++;
-                    juosteles[0] -= 2;
-                    juosteles[1] -= 2;
-                    juosteles[2] -= 2;
-                    continue;
-                }
-            }
-        }
-        break;
+        juosteles[i] -= veleveles * 2;
     }
-    return kiekis;
+
+    return veleveles;
 }
 
 void rez(int kiekis, int juosteles[])
