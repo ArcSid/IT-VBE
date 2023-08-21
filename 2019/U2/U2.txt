@@ -1,13 +1,13 @@
 6
-Petras A. Petraitis 15 20 00
-Jurgis Jurgutis     16 12 12
-Rimas Jonas         15 15 59
-Zigmas Nosis        16 23 9
-Romas Senasis       15 15 15
-Rytis Uosis Ainis   16 23 9
+Petras A. Petraitis 213 15 20 00
+Jurgis Jurgutis     221 16 12 12
+Rima Joana          115 15 15 59
+Zigmas Nosis        256 16 23 9
+Roma Liepa          111 15 15 15
+Rytis Uosis Ainis   255 16 23 9
 5
-Zigmas Nosis        16 43 15
-Petras A. Petraitis 15 50 10
-Romas Senasis       16 5 35
-Rytis Uosis Ainis   16 55 59
-Jurgis Jurgutis     16 42 22
+256 16 43 15 5 5 5 5
+213 15 50 10 4 0 5 3
+111 16 5 35 5 4
+255 16 55 59 5 4 3 1
+115 16 42 22 2 5

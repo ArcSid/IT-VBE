@@ -1,103 +1,141 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
-struct Slidininkas
+struct Sportininkas
 {
     string vardas;
-    bool finisavo = false;
-    int pradinis_laikas_sekundemis;
-    int pabaigos_laikas_sekundemis;
+    bool ar_finisavo = false;
+    int identifikatorius;
+    int starto_laikas_sekundemis;
+    int finisavimo_laikas_sekundemis;
 
-    int kiek_laiko_sugaiso_sekundemis()
+    int uztruko_laiko()
     {
-        return pabaigos_laikas_sekundemis - pradinis_laikas_sekundemis;
+        return finisavimo_laikas_sekundemis - starto_laikas_sekundemis;
     }
 
-    int sugaiso_minuciu()
+    string laikas()
     {
-        return kiek_laiko_sugaiso_sekundemis() / 60;
+        int n = uztruko_laiko();
+        int val = n / 3600;
+        n %= 3600;
+        int min = n / 60;
+        n %= 60;
+        string str = to_string(val) + " " + to_string(min) + " " + to_string(n);
+        return str;
     }
-    int sugaiso_sekundziu()
-    {
-        return kiek_laiko_sugaiso_sekundemis() % 60;
-    }
+
+    int suviai[4];
 };
 
-void skaitymas(int &slidininku_kiekis, int &finisavusiu_kiekis, Slidininkas slidininkai[])
+void skaitymas(int &sportininku_kiekis, int &finisavusiu_sportininku_kiekis, Sportininkas sportininkai[])
 {
     ifstream data("U2.txt");
-    data >> slidininku_kiekis;
-    for (int i = 0; i < slidininku_kiekis; i++)
+    data >> sportininku_kiekis;
+    for (int i = 0; i < sportininku_kiekis; i++)
     {
-        char ch[21] = {' '};
+        char ch[21];
         data.read(ch, 1);
         data.read(ch, 20);
-        slidininkai[i].vardas = ch;
-        int temp = 0;
+        sportininkai[i].vardas = ch;
+        data >> sportininkai[i].identifikatorius;
+        int temp;
         int laikas = 0;
-
         data >> temp;
         laikas += temp * 3600;
         data >> temp;
         laikas += temp * 60;
         data >> temp;
         laikas += temp;
-        slidininkai[i].pradinis_laikas_sekundemis = laikas;
+        sportininkai[i].starto_laikas_sekundemis = laikas;
     }
-    data >> finisavusiu_kiekis;
-    for (int i = 0; i < finisavusiu_kiekis; i++)
+    data >> finisavusiu_sportininku_kiekis;
+    int identifikatorius;
+    for (int i = 0; i < finisavusiu_sportininku_kiekis; i++)
     {
-        char ch[21] = {' '};
-        data.read(ch, 1);
-        data.read(ch, 20);
-        bool atitiko_slidininka = false;
-        for (int j = 0; j < slidininku_kiekis; j++)
+        data >> identifikatorius;
+        for (int j = 0; j < sportininku_kiekis; j++)
         {
-            if (ch == slidininkai[j].vardas)
+            if (sportininkai[j].identifikatorius == identifikatorius)
             {
-                slidininkai[j].finisavo = true;
-                int temp = 0;
+                int temp;
                 int laikas = 0;
-
                 data >> temp;
                 laikas += temp * 3600;
                 data >> temp;
                 laikas += temp * 60;
                 data >> temp;
                 laikas += temp;
-                slidininkai[j].pabaigos_laikas_sekundemis = laikas;
-                atitiko_slidininka = true;
+                sportininkai[j].finisavimo_laikas_sekundemis = laikas;
+                sportininkai[j].ar_finisavo = true;
+                if (identifikatorius / 100 == 1)
+                {
+                    data >> sportininkai[j].suviai[0];
+                    data >> sportininkai[j].suviai[1];
+                    break;
+                }
+                data >> sportininkai[j].suviai[0];
+                data >> sportininkai[j].suviai[1];
+                data >> sportininkai[j].suviai[2];
+                data >> sportininkai[j].suviai[3];
                 break;
             }
         }
-        if (!atitiko_slidininka)
+    }
+    data.close();
+}
+
+void suskirstymas(int kiekis, int &merginu_kiekis, int &berniuku_kiekis, Sportininkas merginos[], Sportininkas berniukai[], Sportininkas sportininkai[])
+{
+    for (int i = 0; i < kiekis; i++)
+    {
+        if (sportininkai[i].ar_finisavo)
         {
-            int temp;
-            data >> temp >> temp >> temp;
-            slidininkai[i].pabaigos_laikas_sekundemis = temp;
+            if (sportininkai[i].identifikatorius / 100 == 1)
+            {
+                merginos[merginu_kiekis].starto_laikas_sekundemis = sportininkai[i].starto_laikas_sekundemis;
+                merginos[merginu_kiekis].finisavimo_laikas_sekundemis = sportininkai[i].finisavimo_laikas_sekundemis;
+                merginos[merginu_kiekis].identifikatorius = sportininkai[i].identifikatorius;
+                merginos[merginu_kiekis].vardas = sportininkai[i].vardas;
+                merginos[merginu_kiekis].suviai[0] = sportininkai[i].suviai[0];
+                merginos[merginu_kiekis].suviai[1] = sportininkai[i].suviai[1];
+                merginu_kiekis++;
+            }
+            if (sportininkai[i].identifikatorius / 100 == 2)
+            {
+                berniukai[berniuku_kiekis].starto_laikas_sekundemis = sportininkai[i].starto_laikas_sekundemis;
+                berniukai[berniuku_kiekis].finisavimo_laikas_sekundemis = sportininkai[i].finisavimo_laikas_sekundemis;
+                berniukai[berniuku_kiekis].identifikatorius = sportininkai[i].identifikatorius;
+                berniukai[berniuku_kiekis].vardas = sportininkai[i].vardas;
+                berniukai[berniuku_kiekis].suviai[0] = sportininkai[i].suviai[0];
+                berniukai[berniuku_kiekis].suviai[1] = sportininkai[i].suviai[1];
+                berniukai[berniuku_kiekis].suviai[2] = sportininkai[i].suviai[2];
+                berniukai[berniuku_kiekis].suviai[3] = sportininkai[i].suviai[3];
+                berniuku_kiekis++;
+            }
         }
     }
 }
 
-void sort(int kiekis, Slidininkas slidininkai[])
+void sort(int kiekis, Sportininkas sportininkai[])
 {
     for (int i = 0; i < kiekis; i++)
     {
-        for (int j = 0; j < kiekis - 1 - i; j++)
+        for (int j = 0; j < kiekis - i - 1; j++)
         {
-            if (slidininkai[i].kiek_laiko_sugaiso_sekundemis() > slidininkai[i + 1].kiek_laiko_sugaiso_sekundemis())
+            if (sportininkai[i].uztruko_laiko() > sportininkai[i + 1].uztruko_laiko())
             {
-                swap(slidininkai[i], slidininkai[i + 1]);
+                swap(sportininkai[i], sportininkai[i + 1]);
             }
-            else if (slidininkai[i].kiek_laiko_sugaiso_sekundemis() == slidininkai[i + 1].kiek_laiko_sugaiso_sekundemis())
+            else if (sportininkai[i].uztruko_laiko() == sportininkai[i + 1].uztruko_laiko())
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    if (slidininkai[i].vardas[k] > slidininkai[i + 1].vardas[k])
+                    if (sportininkai[i].vardas[k] > sportininkai[i + 1].vardas[k])
                     {
-                        swap(slidininkai[i], slidininkai[i + 1]);
-                        break;
+                        swap(sportininkai[i], sportininkai[i + 1]);
                     }
                 }
             }
@@ -105,40 +143,66 @@ void sort(int kiekis, Slidininkas slidininkai[])
     }
 }
 
-void rez(int kiekis, Slidininkas slidininkai[])
+void rez(string tipas, int kiekis, Sportininkas sportininkai[])
 {
-    ofstream rez("U2rez.txt");
+    ofstream rez("U2rez.txt", std::ios::app); // open the file in append mode
+    rez << tipas << endl;
     for (int i = 0; i < kiekis; i++)
     {
-        rez << slidininkai[i].vardas << slidininkai[i].sugaiso_minuciu() << " " << slidininkai[i].sugaiso_sekundziu() << endl;
+        rez << sportininkai[i].identifikatorius << " " << sportininkai[i].vardas << sportininkai[i].laikas() << endl;
+    }
+}
+
+void baudu_skaiciavimas(Sportininkas &sportininkas)
+{
+    int kiekis;
+    if (sportininkas.identifikatorius / 100 == 1)
+    {
+        kiekis = 2;
+    }
+    else
+    {
+        kiekis = 4;
+    }
+    for (int i = 0; i < kiekis; i++)
+    {
+        if (sportininkas.suviai[i] < 5)
+        {
+            sportininkas.finisavimo_laikas_sekundemis += 60 * (5 - sportininkas.suviai[i]);
+        }
     }
 }
 
 int main()
 {
-    int slidininku_kiekis;
-    int finisavusiu_slidininku_kiekis;
-    Slidininkas slidininkai[30];
+    Sportininkas sportininkai[30];
+    int kiekis;
+    int kiekis_finisavusiu;
+    skaitymas(kiekis, kiekis_finisavusiu, sportininkai);
+    int merginu_kiekis = 0;
+    int berniuku_kiekis = 0;
+    Sportininkas merginos[30];
+    Sportininkas berniukai[30];
 
-    skaitymas(slidininku_kiekis, finisavusiu_slidininku_kiekis, slidininkai);
-    Slidininkas finisave_slidininkai[30];
+    suskirstymas(kiekis, merginu_kiekis, berniuku_kiekis, merginos, berniukai, sportininkai);
 
-    int temp = 0;
-
-    for (int i = 0; i < slidininku_kiekis; i++)
+    for (int i = 0; i < merginu_kiekis; i++)
     {
-        if (slidininkai[i].finisavo)
-        {
-            finisave_slidininkai[temp].vardas = slidininkai[i].vardas;
-            finisave_slidininkai[temp].finisavo = true;
-            finisave_slidininkai[temp].pradinis_laikas_sekundemis = slidininkai[i].pradinis_laikas_sekundemis;
-            finisave_slidininkai[temp].pabaigos_laikas_sekundemis = slidininkai[i].pabaigos_laikas_sekundemis;
-            temp++;
-        }
+        baudu_skaiciavimas(merginos[i]);
     }
-    sort(finisavusiu_slidininku_kiekis, finisave_slidininkai);
-    sort(finisavusiu_slidininku_kiekis, finisave_slidininkai);
 
-    rez(finisavusiu_slidininku_kiekis, finisave_slidininkai);
+    for (int i = 0; i < berniuku_kiekis; i++)
+    {
+        baudu_skaiciavimas(berniukai[i]);
+    }
+
+    sort(merginu_kiekis, merginos);
+    sort(merginu_kiekis, merginos);
+    sort(berniuku_kiekis, berniukai);
+    sort(berniuku_kiekis, berniukai);
+
+    rez("Merginos", merginu_kiekis, merginos);
+    rez("Vaikinai", berniuku_kiekis, berniukai);
+
     return 0;
 }
