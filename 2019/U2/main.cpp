@@ -121,21 +121,21 @@ void suskirstymas(int kiekis, int &merginu_kiekis, int &berniuku_kiekis, Sportin
 
 void sort(int kiekis, Sportininkas sportininkai[])
 {
-    for (int i = 0; i < kiekis; i++)
+    for (int i = 0; i < kiekis - 1; i++)
     {
         for (int j = 0; j < kiekis - i - 1; j++)
         {
-            if (sportininkai[i].uztruko_laiko() > sportininkai[i + 1].uztruko_laiko())
+            if (sportininkai[j].uztruko_laiko() > sportininkai[j + 1].uztruko_laiko())
             {
-                swap(sportininkai[i], sportininkai[i + 1]);
+                swap(sportininkai[j], sportininkai[j + 1]);
             }
-            else if (sportininkai[i].uztruko_laiko() == sportininkai[i + 1].uztruko_laiko())
+            else if (sportininkai[j].uztruko_laiko() == sportininkai[j + 1].uztruko_laiko())
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    if (sportininkai[i].vardas[k] > sportininkai[i + 1].vardas[k])
+                    if (sportininkai[j].vardas[k] > sportininkai[j + 1].vardas[k])
                     {
-                        swap(sportininkai[i], sportininkai[i + 1]);
+                        swap(sportininkai[j], sportininkai[j + 1]);
                     }
                 }
             }
@@ -197,8 +197,6 @@ int main()
     }
 
     sort(merginu_kiekis, merginos);
-    sort(merginu_kiekis, merginos);
-    sort(berniuku_kiekis, berniukai);
     sort(berniuku_kiekis, berniukai);
 
     rez("Merginos", merginu_kiekis, merginos);
