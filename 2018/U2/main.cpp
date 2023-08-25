@@ -71,32 +71,26 @@ void skaitymas(int &slidininku_kiekis, int &finisavusiu_kiekis, Slidininkas slid
                 break;
             }
         }
-        if (!atitiko_slidininka)
-        {
-            int temp;
-            data >> temp >> temp >> temp;
-            slidininkai[i].pabaigos_laikas_sekundemis = temp;
-        }
     }
 }
 
 void sort(int kiekis, Slidininkas slidininkai[])
 {
-    for (int i = 0; i < kiekis; i++)
+    for (int i = 0; i < kiekis - 1; i++)
     {
         for (int j = 0; j < kiekis - 1 - i; j++)
         {
-            if (slidininkai[i].kiek_laiko_sugaiso_sekundemis() > slidininkai[i + 1].kiek_laiko_sugaiso_sekundemis())
+            if (slidininkai[j].kiek_laiko_sugaiso_sekundemis() > slidininkai[j + 1].kiek_laiko_sugaiso_sekundemis())
             {
-                swap(slidininkai[i], slidininkai[i + 1]);
+                swap(slidininkai[j], slidininkai[j + 1]);
             }
-            else if (slidininkai[i].kiek_laiko_sugaiso_sekundemis() == slidininkai[i + 1].kiek_laiko_sugaiso_sekundemis())
+            else if (slidininkai[j].kiek_laiko_sugaiso_sekundemis() == slidininkai[j + 1].kiek_laiko_sugaiso_sekundemis())
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    if (slidininkai[i].vardas[k] > slidininkai[i + 1].vardas[k])
+                    if (slidininkai[j].vardas[k] > slidininkai[j + 1].vardas[k])
                     {
-                        swap(slidininkai[i], slidininkai[i + 1]);
+                        swap(slidininkai[j], slidininkai[j + 1]);
                         break;
                     }
                 }
@@ -136,7 +130,6 @@ int main()
             temp++;
         }
     }
-    sort(finisavusiu_slidininku_kiekis, finisave_slidininkai);
     sort(finisavusiu_slidininku_kiekis, finisave_slidininkai);
 
     rez(finisavusiu_slidininku_kiekis, finisave_slidininkai);
