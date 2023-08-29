@@ -32,6 +32,7 @@ void skaitymas(int &mokiniu_kiekis, Mokinys mokiniai[])
     ifstream data("U2.txt");
     string str;
     data >> mokiniu_kiekis;
+
     for (int i = 0; i < mokiniu_kiekis; i++)
     {
         data >> str;
@@ -52,47 +53,37 @@ void skaitymas(int &mokiniu_kiekis, Mokinys mokiniai[])
 
 void pamoku_atrinkimas(int &dalyku_kiekis, int mokiniu_kiekis, Mokinys mokiniai[], vector<Dalykas> &dalykai)
 {
+
     for (int i = 0; i < mokiniu_kiekis; i++)
     {
-        int atitiko_dalyka = false;
-        Dalykas laikinas_dalykas;
+        int atitiko_dalyka = -1;
+
         for (int j = 0; j < dalykai.size(); j++)
         {
             if (dalykai[j].pavadinimas == mokiniai[i].megstamiausias_dalykas)
             {
-                dalykai[j].mokiniai.push_back(mokiniai[i].vardas);
-                dalykai[j].vidurkiai.push_back(mokiniai[i].vidurkis());
-                atitiko_dalyka = true;
+                atitiko_dalyka = j;
                 break;
             }
         }
-        if (!atitiko_dalyka)
+
+        if (mokiniai[i].vidurkis() >= 9)
         {
-            laikinas_dalykas.pavadinimas = mokiniai[i].megstamiausias_dalykas;
-            laikinas_dalykas.mokiniai.push_back(mokiniai[i].vardas);
-            laikinas_dalykas.vidurkiai.push_back(mokiniai[i].vidurkis());
-            dalykai.push_back(laikinas_dalykas);
+            if (atitiko_dalyka != -1)
+            {
+                dalykai[atitiko_dalyka].mokiniai.push_back(mokiniai[i].vardas);
+            }
+            else
+            {
+                Dalykas laikinas_dalykas;
+                laikinas_dalykas.pavadinimas = mokiniai[i].megstamiausias_dalykas;
+                laikinas_dalykas.mokiniai.push_back(mokiniai[i].vardas);
+                dalykai.push_back(laikinas_dalykas);
+            }
         }
     }
 }
 
-void mokiniu_atrinkimas(vector<Dalykas> dalykai, vector<Dalykas> &atrinkti_dalykai)
-{
-    for (int i = 0; i < dalykai.size(); i++)
-    {
-        Dalykas laikinas_dalykas;
-        laikinas_dalykas.pavadinimas = dalykai[i].pavadinimas;
-        atrinkti_dalykai.push_back(laikinas_dalykas);
-        for (int j = 0; j < dalykai[i].vidurkiai.size(); j++)
-        {
-            if (dalykai[i].vidurkiai[j] >= 9)
-            {
-                atrinkti_dalykai[i].mokiniai.push_back(dalykai[i].mokiniai[j]);
-                atrinkti_dalykai[i].vidurkiai.push_back(dalykai[i].vidurkiai[j]);
-            }
-        }
-    }
-}
 void sort(vector<Dalykas> &dalykai)
 {
     int n = dalykai.size();
@@ -100,7 +91,7 @@ void sort(vector<Dalykas> &dalykai)
     {
         for (int j = 0; j < n - 1 - i; j++)
         {
-            if (dalykai[j].mokiniai.size() < dalykai[j + 1].mokiniai.size() || (dalykai[j].mokiniai.size() == dalykai[j + 1].mokiniai.size()) && string(dalykai[j].pavadinimas) < string(dalykai[j + 1].pavadinimas))
+            if (dalykai[j].mokiniai.size() < dalykai[j + 1].mokiniai.size() || (dalykai[j].mokiniai.size() == dalykai[j + 1].mokiniai.size()) && string(dalykai[j].pavadinimas) > string(dalykai[j + 1].pavadinimas))
             {
                 swap(dalykai[j], dalykai[j + 1]);
             }
@@ -142,13 +133,9 @@ int main()
 
     pamoku_atrinkimas(dalyku_kiekis, mokiniu_kiekis, mokiniai, dalykai);
 
-    vector<Dalykas> atrinkti_mokiniai_ir_dalykai;
+    sort(dalykai);
 
-    mokiniu_atrinkimas(dalykai, atrinkti_mokiniai_ir_dalykai);
-
-    sort(atrinkti_mokiniai_ir_dalykai);
-
-    rez(atrinkti_mokiniai_ir_dalykai);
+    rez(dalykai);
 
     return 0;
 }
