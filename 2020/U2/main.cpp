@@ -45,6 +45,7 @@ void skaitymas(int &zveju_kiekis, int &zuvu_kiekis, Zvejas zvejai[], Zuvis zuvys
         zuvys[i].pavadinimas = ch;
         data >> zuvys[i].taskai;
     }
+    data.close();
 }
 
 int surinkti_taskai(Zvejas zvejas, int zuvu_kiekis, Zuvis zuvys[])
@@ -58,12 +59,12 @@ int surinkti_taskai(Zvejas zvejas, int zuvu_kiekis, Zuvis zuvys[])
             {
                 taskai += zuvys[j].taskai;
                 zuvys[j].kiekis_kilogramais += zvejas.zuvu_mase[i];
-                if (zvejas.zuvu_mase[i] / 100 >= 3)
+                if (zvejas.zuvu_mase[i] >= 300)
                 {
                     taskai += 30;
                     break;
                 }
-                if (zvejas.zuvu_mase[i] / 100 >= 2)
+                if (zvejas.zuvu_mase[i] >= 200)
                 {
                     taskai += 20;
                     break;
@@ -117,6 +118,7 @@ void rez(int zveju_kiekis, Zvejas zvejai[], int zuvu_kiekis, Zuvis zuvys[])
     {
         rez << zuvys[i].pavadinimas << zuvys[i].kiekis_kilogramais << endl;
     }
+    rez.close();
 }
 
 int main()
@@ -137,4 +139,5 @@ int main()
     sort_zuvys(zuvu_kiekis, zuvys);
 
     rez(zveju_kiekis, zvejai, zuvu_kiekis, zuvys);
+    return 0;
 }
