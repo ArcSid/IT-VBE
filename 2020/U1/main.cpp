@@ -3,96 +3,81 @@
 #include <vector>
 using namespace std;
 
+int vasaros_diena(int menesis, int diena)
+{
+    if (menesis == 6)
+    {
+        return diena;
+    }
+    if (menesis == 7)
+    {
+        return diena + 31;
+    }
+    return diena + 61;
+}
+
 struct Gele
 {
-    int identifikatorius;
-
-    int zydejimo_pradzia_menesis;
-    int zydejimo_pabaiga_menesis;
-    int zydejimo_pradzia_diena;
-    int zydejimo_pabaiga_diena;
-
-    int zydejimo_pradzia()
-    {
-        if (zydejimo_pradzia_menesis == 6)
-        {
-            return zydejimo_pradzia_diena;
-        }
-        if (zydejimo_pradzia_menesis == 7)
-        {
-            return zydejimo_pradzia_diena + 31;
-        }
-        return zydejimo_pradzia_diena + 61;
-    }
-
-    int zydejimo_pabaiga()
-    {
-        if (zydejimo_pabaiga_menesis == 6)
-        {
-            return zydejimo_pabaiga_diena;
-        }
-        if (zydejimo_pabaiga_menesis == 7)
-        {
-            return zydejimo_pabaiga_diena + 31;
-        }
-        return zydejimo_pabaiga_diena + 61;
-    }
-};
-
-struct Dienos
-{
-    vector<int> geliu_identifikatorius;
+    int zydejimo_pradzia;
+    int zydejimo_pabaiga;
 };
 
 void skaitymas(int &kiekis, Gele geles[])
 {
     ifstream data("U1.txt");
     data >> kiekis;
+    int f;
+    int menesis, diena;
+
     for (int i = 0; i < kiekis; i++)
     {
-        data >> geles[i].identifikatorius;
-        data >> geles[i].zydejimo_pradzia_menesis;
-        data >> geles[i].zydejimo_pradzia_diena;
-        data >> geles[i].zydejimo_pabaiga_menesis;
-        data >> geles[i].zydejimo_pabaiga_diena;
+        data >> f;
+        data >> menesis;
+        data >> diena;
+        geles[i].zydejimo_pradzia = vasaros_diena(menesis, diena);
+        data >> menesis;
+        data >> diena;
+        geles[i].zydejimo_pabaiga = vasaros_diena(menesis, diena);
     }
-    data.close();
 }
 
-int max_zydejimo_pradzia(int &max_zydinciu, Dienos dienos[])
+int max_zydejimo_pradzia(int &max_zydinciu, int dienos[])
 {
+
     int max_i = 1;
-    for (int i = 1; i < 93; i++)
+
+    for (int i = 0; i < 92; i++)
     {
-        if (dienos[i].geliu_identifikatorius.size() > max_zydinciu)
+
+        if (dienos[i] > max_zydinciu)
         {
-            max_zydinciu = dienos[i].geliu_identifikatorius.size();
+            max_zydinciu = dienos[i];
             max_i = i;
         }
     }
+
     return max_i;
 }
 
-int max_zydejimo_pabaiga(int max_zydinciu, int max_pradzia, Dienos dienos[])
+int max_zydejimo_pabaiga(int max_zydinciu, int max_pradzia, int dienos[])
 {
     for (int i = max_pradzia; i < 93; i++)
     {
-        if (dienos[i].geliu_identifikatorius.size() < max_zydinciu)
+        if (dienos[i] < max_zydinciu)
         {
-
             return i - 1;
         }
     }
     return 92;
 }
 
-void sudeti_dienas(int kiekis, Gele geles[], Dienos dienos[])
+void sudeti_dienas(int kiekis, Gele geles[], int dienos[])
 {
     for (int i = 0; i < kiekis; i++)
     {
-        for (int j = geles[i].zydejimo_pradzia(); j <= geles[i].zydejimo_pabaiga(); j++)
+        for (int j = geles[i].zydejimo_pradzia; j <= geles[i].zydejimo_pabaiga; j++)
         {
-            dienos[j].geliu_identifikatorius.push_back(geles[i].identifikatorius);
+            dienos[j]++;
         }
     }
 }
@@ -138,12 +123,15 @@ int main()
 {
     int kiekis;
     Gele geles[30];
-    Dienos dienos[93];
+    int dienos[93] = {0};
     int max_zydi = 0;
+
     skaitymas(kiekis, geles);
     sudeti_dienas(kiekis, geles, dienos);
+
     int zydejimo_pradzia = max_zydejimo_pradzia(max_zydi, dienos);
     int zydejimo_pabaiga = max_zydejimo_pabaiga(max_zydi, zydejimo_pradzia, dienos);
+
     rez(max_zydi, zydejimo_pradzia, zydejimo_pabaiga);
     return 0;
 }
