@@ -54,23 +54,15 @@ void skaitymas(int &dienu_kiekis, Diena dienos[])
     data.close();
 }
 
-void dienu_atrinkimas(int &kiekis, int dienu_kiekis, Diena dienos[], Diena perdarytos_dienos[])
-{
-    for (int i = 0; i < dienu_kiekis; i++)
-    {
-        if (dienos[i].bego_ryte && dienos[i].bego_vakare)
-        {
-            perdarytos_dienos[kiekis] = dienos[i];
-            kiekis++;
-        }
-    }
-}
-
 int min_laikas(int kiekis, Diena dienos[])
 {
     int min_laikas = dienos[0].begimo_laikas();
     for (int i = 0; i < kiekis; i++)
     {
+        if (!dienos[i].bego_ryte || !dienos[i].bego_vakare)
+        {
+            continue;
+        }
         if (min_laikas > dienos[i].begimo_laikas())
         {
             min_laikas = dienos[i].begimo_laikas();
@@ -87,6 +79,10 @@ void rez(int min, int kiekis, Diena dienos[])
     rez << "Dienos" << endl;
     for (int i = 0; i < kiekis; i++)
     {
+        if (!dienos[i].bego_ryte || !dienos[i].bego_vakare)
+        {
+            continue;
+        }
         if (dienos[i].begimo_laikas() == min)
         {
             rez << dienos[i].indikatorius << " ";
@@ -101,11 +97,6 @@ int main()
     Diena dienos[31];
     skaitymas(dienu_kiekis, dienos);
 
-    Diena dienos_kai_bego_ryte_ir_vakare[31];
-    int kiekis = 0;
-
-    dienu_atrinkimas(kiekis, dienu_kiekis, dienos, dienos_kai_bego_ryte_ir_vakare);
-
-    rez(min_laikas(kiekis, dienos_kai_bego_ryte_ir_vakare), kiekis, dienos_kai_bego_ryte_ir_vakare);
+    rez(min_laikas(dienu_kiekis, dienos), dienu_kiekis, dienos);
     return 0;
 }
