@@ -9,3 +9,7 @@ ir jas įkeliant čia.
 
         $ cd ./YEAR/TASK_NR
         $ g++ main.cpp -o main & ./main.exe
+
+# pildymo progresas
+
+programavimas: 36/36
