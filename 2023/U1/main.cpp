@@ -48,62 +48,45 @@ void skaitymas(int &mokiniu_kiekis, Mokinys mokiniai[])
 
 void klases_kategorijos(int mokiniu_kiekis, Mokinys mokiniai[], vector<Klase> &klases)
 {
-    // eina per visus mokinius
+    // eina per mokinis
     for (int i = 0; i < mokiniu_kiekis; i++)
     {
-        // ziuri tik tuos kurie ejo kasdien
-        if (mokiniai[i].ar_ejo_kasdiena())
+        // tikrina ar mokinys kasdien ejo
+        if (!mokiniai[i].ar_ejo_kasdiena())
         {
-            // paprastas naujo vektoriaus elemento atrinkimas pagal mokinius kurie ejo
-            bool ar_nauja_klase = true;
+            continue;
+        }
 
-            // eina per visas egzistuojancias klases
-            for (int j = 0; j < klases.size(); j++)
+        // tikrina ar klase egzistuoja
+        int klase_i = -1;
+        for (int j = 0; j < klases.size(); j++)
+        {
+            if (mokiniai[i].klase == klases[j].indikatorius)
             {
-
-                // jeigu rado jau egzistuojancia klase
-                if (mokiniai[i].klase == klases[j].indikatorius)
-                {
-                    // prideda mokini prie mokiniu kiekio
-
-                    klases[j].mokiniu_kiekis++;
-
-                    // randa koki atstuma mokinys nuejo kilometrais
-                    int zingsniau_kiekis = 0;
-
-                    for (int k = 0; k < 7; k++)
-                    {
-                        zingsniau_kiekis += mokiniai[i].zingsniai[k];
-                    }
-                    double atstumas = double(zingsniau_kiekis * mokiniai[i].zingsnio_ilgis) / 100000;
-                    klases[j].nueitas_atstumas += atstumas;
-
-                    // indikuoja kad naujos klases kurti nereikia
-                    ar_nauja_klase = false;
-                }
-            }
-
-            // jeigu nerado klases atitinkancios kasdien ejusi mokini, sukuriama nauja klase
-            if (ar_nauja_klase)
-            {
-                // sukuriama nauja klase ir i ja idedami mokinio duomenys
-                Klase temp_klase;
-                temp_klase.indikatorius = mokiniai[i].klase;
-                temp_klase.mokiniu_kiekis++;
-
-                // i laikina klase idedama ir nueitas kelias
-                int zingsniau_kiekis = 0;
-
-                for (int k = 0; k < 7; k++)
-                {
-                    zingsniau_kiekis += mokiniai[i].zingsniai[k];
-                }
-                double atstumas = double(zingsniau_kiekis * mokiniai[i].zingsnio_ilgis) / 100000;
-                temp_klase.nueitas_atstumas += atstumas;
-                // laikina klase pridedama prie visu klasiu
-                klases.push_back(temp_klase);
+                klase_i = j;
+                break;
             }
         }
+
+        // jeigu neranda klases, sukuriama nauja klase
+        if (klase_i == -1)
+        {
+            Klase temp_klase;
+            temp_klase.indikatorius = mokiniai[i].klase;
+            klases.push_back(temp_klase);
+            klase_i = klases.size() - 1;
+        }
+
+        // klase_i rodo rasta arba naujai sukurta klase ir ten prideda bendrus duomenis, t.y. mok. kiekis, zingsniu ilgis
+        klases[klase_i].mokiniu_kiekis++;
+        int zingsniau_kiekis = 0;
+
+        for (int k = 0; k < 7; k++)
+        {
+            zingsniau_kiekis += mokiniai[i].zingsniai[k];
+        }
+        double atstumas = double(zingsniau_kiekis * mokiniai[i].zingsnio_ilgis) / 100000;
+        klases[klase_i].nueitas_atstumas += atstumas;
     }
 }
 
