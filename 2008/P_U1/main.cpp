@@ -39,11 +39,11 @@ void skaitymas(vector<Zmogus> &zmones)
         char ch[26] = {0};
         data.read(ch, 1);
         data.read(ch, 25);
-        Zmogus laikinas_zmogus;
-        laikinas_zmogus.vardas = ch;
-        data >> laikinas_zmogus.gimimo_metai >> laikinas_zmogus.gimimo_menesis >> laikinas_zmogus.gimimo_diena;
-        data >> laikinas_zmogus.mirties_metai >> laikinas_zmogus.mirties_menesis >> laikinas_zmogus.mirties_diena;
-        zmones.push_back(laikinas_zmogus);
+        Zmogus zmogus;
+        zmogus.vardas = ch;
+        data >> zmogus.gimimo_metai >> zmogus.gimimo_menesis >> zmogus.gimimo_diena;
+        data >> zmogus.mirties_metai >> zmogus.mirties_menesis >> zmogus.mirties_diena;
+        zmones.push_back(zmogus);
     }
 }
 
