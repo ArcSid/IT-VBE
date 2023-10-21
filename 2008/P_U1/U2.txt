@@ -1,9 +1,9 @@
 8
-Albertas Einšteinas      1879 03 14 1955 04 18
+Albertas Einsteinas      1879 03 14 1955 04 18
 Balys Sruoga             1896 02 02 1947 10 16
 Antanas Vienuolis        1882 04 07 1957 08 17
 Ernestas Rezerfordas     1871 08 30 1937 10 17
 Nilsas Boras             1885 10 07 1962 11 18
-Nežiniukas Pirmasis      8 05 24 8 05 25
-Nežiniukas Antrasis      888 05 25 888 05 25
-Nežiniukas Trečiasis     1 01 01 125 01 01
+Neziniukas Pirmasis      8 05 24 8 05 25
+Neziniukas Antrasis      888 05 25 888 05 25
+Neziniukas Treciasis     1 01 01 125 01 01
