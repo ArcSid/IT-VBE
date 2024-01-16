@@ -1,0 +1,14 @@
+3
+3
+Lokys Baltasis      4 25
+Lokys Rudasis       3 59
+Lokys Juodasis      4 15
+2
+Vilkas Pilkas       6 45
+Vilkas Baltas       3 55
+5
+Lapinas Rudas       3 58
+Lapinas Baltas      4 2
+Lapinas Gudrutis    4 5
+Lapinas Ilgas       4 4
+Lapinas Trumpas     4 4
