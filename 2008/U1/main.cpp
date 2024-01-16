@@ -1,84 +1,71 @@
-#include <iostream>
 #include <fstream>
-#include <iomanip>
+#include <iostream>
+#include <vector>
 using namespace std;
 
-void skaitymas(int ilipimai[], int islipimai[])
-{
-    ifstream data("U1.txt");
-    int stoteliu_kiekis;
-    data >> stoteliu_kiekis;
-    int stotele;
-    int temp;
-    for (int i = 0; i < stoteliu_kiekis; i++)
-    {
-        data >> stotele;
-        data >> temp;
-        if (temp < 0)
-        {
-            islipimai[stotele] += temp;
+struct Asmuo{
+    int gimimo_metai;
+    int gimimo_menesis;
+    int gimimo_diena;
+
+    int mirties_metai;
+    int mirties_menesis;
+    int mirties_diena;
+
+    string vardas;
+    // metai turi 365d
+    int kiekDienuGyveno(){
+        int metuDienos[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+        int menesiuDienos = 0;
+        for(int i = 0; i<gimimo_menesis; i++){
+            menesiuDienos += metuDienos[i];
         }
-        else
-        {
-            ilipimai[stotele] += temp;
+        int gimimasDienomis = gimimo_metai*365+menesiuDienos+gimimo_diena;
+        menesiuDienos = 0;
+        for(int i = 0; i<mirties_menesis; i++){
+            menesiuDienos+=metuDienos[i];
         }
+        int mirtisDienomis = mirties_metai*365+menesiuDienos+mirties_diena;
+
+        return mirtisDienomis-gimimasDienomis;
     }
-}
-int daugiausiai_keleiviu(int ilipimai[])
-{
-    int max = 0;
-    int max_i = 0;
-    for (int i = 0; i < 100; i++)
-    {
-        if (ilipimai[i] > max)
-        {
-            max = ilipimai[i];
-            max_i = i;
-        }
+
+};
+
+void skaitymas(vector<Asmuo>& asmenys){
+    int asmenu_kiekis;
+    ifstream data("U2.txt");
+    data >> asmenu_kiekis;
+    ofstream test("test.txt");
+    for(int i = 0; i<asmenu_kiekis; i++){
+        char vardas[21];
+        char tempchars[2];
+        data.read(tempchars,1);
+        data.read(vardas,20);
+        vardas[20] = '\0';
+        Asmuo temp;
+        temp.vardas = vardas;
+        data >> temp.gimimo_metai >> temp.gimimo_menesis >> temp.gimimo_diena;
+        data >> temp.mirties_metai >> temp.mirties_menesis >> temp.mirties_diena;
+        asmenys.push_back(temp);
     }
-    return max_i;
+    data.close();
 }
 
-void rez(int ilipimai[], int islipimai[], int max)
-{
-    int stoteliu_sk;
-    int numeriai[100] = {0};
-    int numerio_islipimai[100] = {0};
-    int numerio_ilipimai[100] = {0};
-    int j = 0;
-    for (int i = 0; i < 100; i++)
-    {
-        if (islipimai[i] < 0 || ilipimai[i] > 0)
-        {
-            numeriai[j] = i;
-            numerio_ilipimai[j] = ilipimai[i];
-            numerio_islipimai[j] = islipimai[i];
-            j++;
-        }
+void rez(vector<Asmuo> asmenys){
+    ofstream data("U2rez.txt");
+    for(int i = 0; i<asmenys.size(); i++){
+        //cout << asmenys[i].vardas.length() << " " << asmenys[i].vardas<< endl;
+        data << asmenys[i].vardas << " " << asmenys[i].gimimo_metai << " " << asmenys[i].gimimo_menesis << " " << asmenys[i].gimimo_diena << 
+        " " << asmenys[i].mirties_metai << " " << asmenys[i].mirties_menesis << " " << asmenys[i].mirties_diena 
+        << " " << asmenys[i].kiekDienuGyveno() << endl;
     }
-    ofstream rez("U1rez.txt");
-    for (int i = 0; i < j; i++)
-    {
-        rez << setw(4) << numeriai[i];
-    }
-    rez << endl;
-    for (int i = 0; i < j; i++)
-    {
-        rez << setw(4) << numerio_ilipimai[i];
-    }
-    rez << endl;
-    for (int i = 0; i < j; i++)
-    {
-        rez << setw(4) << numerio_islipimai[i];
-    }
-    rez << endl
-        << setw(4) << max << endl;
+    res.close();
 }
-int main()
-{
-    int ilipimai[100] = {0};
-    int islipimai[100] = {0};
-    skaitymas(ilipimai, islipimai);
-    int max = daugiausiai_keleiviu(ilipimai);
-    rez(ilipimai, islipimai, max);
+
+int main(){
+    vector<Asmuo> asmenys;
+    skaitymas(asmenys);
+    rez(asmenys);
+    return 0;
 }
