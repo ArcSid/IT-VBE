@@ -77,4 +77,5 @@ int main(){
     //     }
     //     cout << endl << sveciai[i].kaina << endl;
     // }
+    return 0;
 }
