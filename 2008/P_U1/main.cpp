@@ -3,14 +3,17 @@
 #include <iomanip>
 using namespace std;
 
+
+
 void skaitymas(int& n, int& iejusiuSk, int stotiesNr[], int keleiviuSk[]){
     ifstream data("U1.txt");
     data >> n;
-    int temp;
+    int savaitesDiena;
     int keleiviai;
+    int kiek_islipo;
     for(int i = 0; i<n; i++){
-        data >> stotiesNr[i] >> temp >> keleiviai >> temp;
-        keleiviuSk[i] = temp+keleiviai;
+        data >> stotiesNr[i] >> savaitesDiena >> keleiviai >> kiek_islipo;
+        keleiviuSk[i] = kiek_islipo+keleiviai;
         iejusiuSk+=keleiviai;
     }
     data.close();
@@ -31,7 +34,7 @@ void atrinkimas(int n, int stotiesNr[], int keleiviuSk[], int& stociuKiekis, int
         }
         if(!exists){
             stotys[stotysCount] = stotiesNr[i];
-            stociuKeleiviai[stotysCount] += keleiviuSk[i];
+            stociuKeleiviai[stotysCount] = keleiviuSk[i];
             stotysCount++;
         }
     }
@@ -39,7 +42,6 @@ void atrinkimas(int n, int stotiesNr[], int keleiviuSk[], int& stociuKiekis, int
     for(int i = 0; i<stotysCount; i++){
         arrStotys[i] = stotys[i];
         arrKeleiviai[i] = stociuKeleiviai[i];
-        //cout << stotys[i] << " " << stociuKeleiviai[i] << endl;
     }
 }
 
@@ -54,7 +56,9 @@ void sort(int n, int stotys[], int keleiviai[]){
     }
 }
 
-int maximum(int n, int keleiviai[]){
+// grazina didziausio nario indeksa
+
+int maximum_i(int n, int keleiviai[]){
     int max_i = 0;
     for(int i = 0; i<n; i++){
         if(keleiviai[i] > keleiviai[max_i]){
@@ -64,18 +68,28 @@ int maximum(int n, int keleiviai[]){
     return max_i;
 }
 
+
+void rezStociuNumeriai(int n, int stotys[], ofstream& rez){
+    for(int i = 0; i<n; i++){
+        rez << setw(6) << stotys[i] << " ";
+    }
+    rez << endl;
+}
+
+void rezKeleiviuSkaiciai(int n, int keleiviai[], ofstream& rez){
+    for(int i = 0; i<n; i++){
+        rez << setw(6) << keleiviai[i] << " ";
+    }
+    rez << endl;
+}
+
 void rez(int n, int iejusiuSk, int daugiausiaKeleiviu, int stotys[], int keleiviai[]){
     ofstream rez("U1rez.txt");
-    for(int i = 0; i<n; i++){
-        rez << setw(4) << stotys[i] << " ";
-    }
-    rez << endl;
-    for(int i = 0; i<n; i++){
-        rez << setw(4) << keleiviai[i] << " ";
-    }
-    rez << endl;
-    rez << setw(4) << stotys[daugiausiaKeleiviu] << endl;
-    rez << setw(4) << iejusiuSk << endl;
+    rezStociuNumeriai(n, stotys, rez);
+    rezKeleiviuSkaiciai(n, keleiviai, rez);
+    rez << setw(6) << stotys[daugiausiaKeleiviu] << endl;
+    rez << setw(6) << iejusiuSk << endl;
+    rez.close();
 }
 
 int main(){
@@ -84,19 +98,12 @@ int main(){
     int stotiesNr[100];
     int keleiviuSk[100];
     skaitymas(n, iejusiuSk, stotiesNr, keleiviuSk);
-    //cout << iejusiuSk << endl;
-    // for(int i = 0; i<n; i++){
-    //     cout << stotiesNr[i] << " " << keleiviuSk[i] << endl;
-    // }
     int stociuKiekis;
     int stotys[100];
     int keleiviai[100];
     atrinkimas(n, stotiesNr, keleiviuSk, stociuKiekis, stotys, keleiviai);
     sort(stociuKiekis, stotys, keleiviai);
-    int daugiausiaKeleiviu = maximum(stociuKiekis, keleiviai);
-    // for(int i = 0; i<stociuKiekis; i++){
-    //     cout << stotys[i] << " " << keleiviai[i] << endl;
-    // }
-    // cout << stotys[daugiausiaKeleiviu] << endl;
+    int daugiausiaKeleiviu = maximum_i(stociuKiekis, keleiviai);
     rez(stociuKiekis, iejusiuSk, daugiausiaKeleiviu, stotys, keleiviai);
+    return 0;
 }
