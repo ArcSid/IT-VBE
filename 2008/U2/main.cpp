@@ -26,6 +26,7 @@ void skaitymas(int &stoteliu_sk, Stotele stoteles[])
         char name[21];
         data.read(name, 1);
         data.read(name, 20);
+        name[20] = '\0';
         stoteles[i].pavadinimas = name;
         data >> stoteles[i].marsrutu_kiekis;
         for (int a = 0; a < stoteles[i].marsrutu_kiekis; a++)
