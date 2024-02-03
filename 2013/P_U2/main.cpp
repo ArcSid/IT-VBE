@@ -62,11 +62,13 @@ void formatavimas(vector<Savivaldybe> savivaldybes, vector<UnikaliSavivaldybe>& 
     }
 }
 
-void rez(vector<Savivaldybe> savivaldybes){
-
-    for(int i = 0; i<savivaldybes.size(); i++){
-
+void rez(vector<UnikaliSavivaldybe> unikaliosSavivaldybes){
+    ofstream rez("U2rez.txt");
+    rez << unikaliosSavivaldybes.size() << endl;
+    for(int i = 0; i<unikaliosSavivaldybes.size(); i++){
+        rez << unikaliosSavivaldybes[i].pavadinimas << " " << unikaliosSavivaldybes[i].skaiciai.size() << " " << unikaliosSavivaldybes[i].maximum() << endl;
     }
+    rez.close();
 }
 
 int main(){
@@ -74,7 +76,6 @@ int main(){
     skaitymas(savivaldybes);
     vector<UnikaliSavivaldybe> unikaliosSavivaldybes;
     formatavimas(savivaldybes, unikaliosSavivaldybes);
-    for(int i = 0; i<unikaliosSavivaldybes.size(); i++){
-        cout << unikaliosSavivaldybes[i].pavadinimas << " " << unikaliosSavivaldybes[i].skaiciai.size() << " " << unikaliosSavivaldybes[i].maximum() << endl;
-    }
+    rez(unikaliosSavivaldybes);
+    return 0;
 }
