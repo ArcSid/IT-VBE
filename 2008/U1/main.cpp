@@ -59,20 +59,20 @@ void rez(int ilipimai[], int islipimai[], int max)
     ofstream rez("U1rez.txt");
     for (int i = 0; i < j; i++)
     {
-        rez << setw(4) << numeriai[i];
+        rez << setw(6) << numeriai[i];
     }
     rez << endl;
     for (int i = 0; i < j; i++)
     {
-        rez << setw(4) << numerio_ilipimai[i];
+        rez << setw(6) << numerio_ilipimai[i];
     }
     rez << endl;
     for (int i = 0; i < j; i++)
     {
-        rez << setw(4) << numerio_islipimai[i];
+        rez << setw(6) << numerio_islipimai[i];
     }
     rez << endl
-        << setw(4) << max << endl;
+        << setw(6) << max << endl;
 }
 int main()
 {
