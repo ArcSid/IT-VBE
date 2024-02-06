@@ -33,6 +33,7 @@ void rez(int nominaluSk, int nominaluoseGautuMonetuSk[], int nominalai[], int gi
         rez << nominalai[i] << " " << nominaluoseGautuMonetuSk[i] << endl;
     }
     rez << liko << endl;
+    rez.close();
 }
 
 int main(){
@@ -42,11 +43,7 @@ int main(){
     int nominaluoseGautuMonetuSk[15] = {0};
     int liko = 0;
     skaitymas(nominaluSk, gilijuKiekis, nominalai);
-    //cout << gilijuKiekis << endl;
     monetuSkaiciavimas(nominaluSk, gilijuKiekis, nominalai, nominaluoseGautuMonetuSk, liko);
-    // for(int i = 0; i<nominaluSk; i++){
-    //     cout << nominaluoseGautuMonetuSk[i] << endl;
-    // }
     rez(nominaluSk, nominaluoseGautuMonetuSk, nominalai, gilijuKiekis, liko);
     return 0;   
 }
