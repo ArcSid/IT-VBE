@@ -67,15 +67,5 @@ int main(){
     skaitymas(sveciai, kainos);
     patiekaluKainuSkaiciavimas(sveciai, kainos);
     rez(sveciai,gimtadienioKaina(sveciai));
-    // cout << gimtadienioKaina(sveciai) << endl;
-    // cout << sveciai[0].vardas << endl;
-    // cout << sveciai.size() << " " << kainos.size() << endl;
-    // for(int i = 0; i<sveciai.size(); i++){
-    //     cout << sveciai[i].vardas << " ";
-    //     for(int j = 0; j<kainos.size(); j++){
-    //         cout << sveciai[i].patiekalai[j] << " ";
-    //     }
-    //     cout << endl << sveciai[i].kaina << endl;
-    // }
     return 0;
 }
