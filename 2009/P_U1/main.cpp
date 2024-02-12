@@ -31,16 +31,6 @@ void monetuSkaiciavimas(int nominaluSk, int gilijuKiekis, int nominalai[], int n
     liko = gilijuKiekis;
 }
 
-int kiekIsVisoGaus(int nominaluSk, int nominaluoseGautuMonetuSk[])
-{
-    int sum = 0;
-    for (int i = 0; i < nominaluSk; i++)
-    {
-        sum += nominaluoseGautuMonetuSk[i];
-    }
-    return sum;
-}
-
 void rez(int monetuKiekis, int nominaluSk, int nominaluoseGautuMonetuSk[], int nominalai[], int gilijuKiekis, int liko)
 {
     ofstream rez("U1rez.txt");
@@ -59,12 +49,12 @@ void rez(int monetuKiekis, int nominaluSk, int nominaluoseGautuMonetuSk[], int n
     rez.close();
 }
 
-int studentuGilijuSkaiciavimas(int studentu_kiekis, int studentuTurimiPinigai[])
+int masyvoSumavimas(int n, int arr[])
 {
     int sum = 0;
-    for (int i = 0; i < studentu_kiekis; i++)
+    for (int i = 0; i < n; i++)
     {
-        sum += studentuTurimiPinigai[i];
+        sum += arr[i];
     }
     return sum;
 }
@@ -79,9 +69,9 @@ int main()
     int studentu_kiekis;
 
     skaitymas(studentu_kiekis, nominaluSk, studentuTurimiPinigai, nominalai);
-    int gilijuKiekis = studentuGilijuSkaiciavimas(studentu_kiekis, studentuTurimiPinigai);
+    int gilijuKiekis = masyvoSumavimas(studentu_kiekis, studentuTurimiPinigai);
     monetuSkaiciavimas(nominaluSk, gilijuKiekis, nominalai, nominaluoseGautuMonetuSk, liko);
-    int monetuKiekis = kiekIsVisoGaus(nominaluSk, nominaluoseGautuMonetuSk);
+    int monetuKiekis = masyvoSumavimas(nominaluSk, nominaluoseGautuMonetuSk);
     rez(monetuKiekis, nominaluSk, nominaluoseGautuMonetuSk, nominalai, gilijuKiekis, liko);
     return 0;
 }
