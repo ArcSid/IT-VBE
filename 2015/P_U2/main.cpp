@@ -1,95 +1,106 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
 using namespace std;
 
-struct Mokinys{
+struct DalyvioDuomenys
+{
   string vardas;
   string atsakymai;
   int taskuKiekis = 0;
-  bool mokytojas = false;
 };
 
-void skaitymas(vector<Mokinys>& mokiniai){
-  int mokiniuKiekis;
+void skaitymas(int &mokiniuKiekis, DalyvioDuomenys &mokytojas, DalyvioDuomenys mokiniai[])
+{
+  int dalyviuKiekis;
   int klausimuKiekis;
   int mokytojoIndikatorius;
   ifstream data("U2.txt");
-  data >> mokiniuKiekis;
+  data >> dalyviuKiekis;
   data >> klausimuKiekis;
   data >> mokytojoIndikatorius;
-  for(int i = 0; i<mokiniuKiekis; i++){
-    Mokinys tempMokinys;
+  int mokytojasRastas = 0;
+  for (int i = 0; i < dalyviuKiekis; i++)
+  {
+    // praleidziame endline
     data.ignore();
+
     char vardas[11];
     data.read(vardas, 10);
     vardas[10] = '\0';
-    tempMokinys.vardas = vardas;
-    data >> tempMokinys.atsakymai;
-    if(i == mokytojoIndikatorius-1){
-      tempMokinys.mokytojas = true;
+    if (i == mokytojoIndikatorius - 1)
+    {
+      mokytojas.vardas = vardas;
+      data >> mokytojas.atsakymai;
+      mokytojasRastas = 1;
+      continue;
     }
-    mokiniai.push_back(tempMokinys);
+    mokiniai[i - mokytojasRastas].vardas = vardas;
+    data >> mokiniai[i - mokytojasRastas].atsakymai;
   }
+  mokiniuKiekis = dalyviuKiekis - 1;
   data.close();
 }
 
-void taskuSkaiciavimas(vector<Mokinys>& mokiniai){
-  Mokinys mokytojas;
-  for(int i = 0; i<mokiniai.size(); i++){
-    if(mokiniai[i].mokytojas == true){
-      mokytojas = mokiniai[i];
-      break;
+int atsakymuPatikrinimas(DalyvioDuomenys mokytojas, DalyvioDuomenys mokinys)
+{
+  int sum = 0;
+  for (int j = 0; j < mokinys.atsakymai.length(); j++)
+  {
+    if (mokinys.atsakymai[j] == mokytojas.atsakymai[j])
+    {
+      sum++;
     }
   }
+  return sum;
+}
 
-  for(int i = 0; i<mokiniai.size(); i++){
-    if(mokiniai[i].mokytojas == true){
-      continue;
-    }
-    for(int j = 0; j<mokiniai[i].atsakymai.length(); j++){
-      if(mokiniai[i].atsakymai[j] == mokytojas.atsakymai[j]){
-        mokiniai[i].taskuKiekis++;
+void taskuSkaiciavimas(int mokiniuKiekis, DalyvioDuomenys mokytojas, DalyvioDuomenys mokiniai[])
+{
+  for (int i = 0; i < mokiniuKiekis; i++)
+  {
+    mokiniai[i].taskuKiekis = atsakymuPatikrinimas(mokytojas, mokiniai[i]);
+  }
+}
+
+void sort(int mokiniuKiekis, DalyvioDuomenys mokiniai[])
+{
+  for (int i = 0; i < mokiniuKiekis; i++)
+  {
+    for (int j = 0; j < mokiniuKiekis - 1 - i; j++)
+    {
+      if (mokiniai[j].taskuKiekis == mokiniai[j + 1].taskuKiekis && mokiniai[j].vardas > mokiniai[j + 1].vardas)
+      {
+        swap(mokiniai[j], mokiniai[j + 1]);
+      }
+      if (mokiniai[j].taskuKiekis > mokiniai[j + 1].taskuKiekis)
+      {
+        swap(mokiniai[j], mokiniai[j + 1]);
       }
     }
   }
 }
 
-void sort(vector<Mokinys>& mokiniai){
-  for(int i = 0; i<mokiniai.size(); i++){
-    for(int j = 0; j<mokiniai.size()-1-i; j++){
-      if(mokiniai[j].taskuKiekis == mokiniai[j+1].taskuKiekis && mokiniai[j].vardas > mokiniai[j+1].vardas){
-        swap(mokiniai[j],mokiniai[j+1]);
-      }
-      if(mokiniai[j].taskuKiekis > mokiniai[j+1].taskuKiekis){
-        swap(mokiniai[j],mokiniai[j+1]);
-      }
-    }
-  }
-}
-
-void rez(vector<Mokinys> mokiniai){
+void rez(int mokiniuKiekis, DalyvioDuomenys mokytojas, DalyvioDuomenys mokiniai[])
+{
   ofstream rez("U2rez.txt");
-  for(int i = 0; i<mokiniai.size(); i++){
-    if(mokiniai[i].mokytojas == true){
-      rez << mokiniai[i].vardas << endl;
-    }
-  }
-
-  for(int i = 0; i<mokiniai.size(); i++){
-    if(mokiniai[i].mokytojas == true){
-      continue;
-    }
+  rez << mokytojas.vardas << endl;
+  for (int i = 0; i < mokiniuKiekis; i++)
+  {
     rez << mokiniai[i].vardas << " " << mokiniai[i].taskuKiekis << endl;
   }
   rez.close();
 }
 
-int main() {
-  vector<Mokinys> mokiniai;
-  skaitymas(mokiniai);
-  taskuSkaiciavimas(mokiniai);
-  sort(mokiniai);
-  rez(mokiniai);
+int main()
+{
+  int mokiniuKiekis;
+  DalyvioDuomenys mokiniai[10];
+  DalyvioDuomenys mokytojas;
+
+  skaitymas(mokiniuKiekis, mokytojas, mokiniai);
+  taskuSkaiciavimas(mokiniuKiekis, mokytojas, mokiniai);
+  sort(mokiniuKiekis, mokiniai);
+  rez(mokiniuKiekis, mokytojas, mokiniai);
+
   return 0;
 }
