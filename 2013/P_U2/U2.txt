@@ -1,0 +1,10 @@
+9
+Kaunas              Kauno        15
+Jieznas             Kauno        1
+Jonava              Kauno        3
+Lentvaris           Vilniaus     2
+Kavarskas           Utenos       1
+Lazdijai            Alytaus      1
+Prieniai            Kauno        2
+Raseiniai           Kauno        3
+Simnas              Alytaus      1

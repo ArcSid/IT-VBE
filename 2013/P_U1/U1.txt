@@ -1,0 +1,6 @@
+5 30
+Petraitis  2 3
+Antanaitis 3 -1
+Cvirka     -2 -4
+Sruoga     -3 0
+Jurgaitis  -2 -4
