@@ -1,0 +1,7 @@
+5 6
+3
+Simas     BBBDDD
+Asta      ABCDEA
+Juozapas  ABCDEA
+Anupras   ABCDEA
+Jonas     ABCAAB
