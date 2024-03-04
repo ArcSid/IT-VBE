@@ -54,7 +54,7 @@ int blogiausiasZaidimas(int vertinimai[])
     int min_i = 0;
     for (int i = 0; i < 3; i++)
     {
-        if (vertinimai[min_i] > vertinimai[i])
+        if (vertinimai[min_i] < vertinimai[i])
         {
             min_i = i;
         }
