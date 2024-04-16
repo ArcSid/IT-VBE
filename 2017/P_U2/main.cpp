@@ -3,35 +3,41 @@
 #include <vector>
 using namespace std;
 
-struct Spalva{
-    int r;
-    int g;
-    int b;
+struct Spalva
+{
+    int r = 255;
+    int g = 255;
+    int b = 255;
     bool utilised = false;
 };
 
-struct Kvadratas{
+struct Kvadratas
+{
     int x0;
     int y0;
     int dydis;
     Spalva spalva;
 };
 
-struct Map{
+struct Map
+{
     Spalva spalvos[99][99];
-    int maxX=0;
-    int maxY=0;
-    int minX=99;
-    int minY=99;
-    int l1(){
-        return maxX-minX+1;
+    int maxX = 0;
+    int maxY = 0;
+    int minX = 99;
+    int minY = 99;
+    int l1()
+    {
+        return maxX - minX + 1;
     }
-    int l2(){
-        return maxY-minY+1;
+    int l2()
+    {
+        return maxY - minY + 1;
     }
 };
 
-void skaitymas(vector<Kvadratas>& kvadratai){
+void skaitymas(vector<Kvadratas> &kvadratai)
+{
     ifstream data("U2.txt");
     int n;
     Kvadratas tempKvadratas;
@@ -39,7 +45,8 @@ void skaitymas(vector<Kvadratas>& kvadratai){
 
     data >> n;
 
-    for(int i = 0; i<n; i++){
+    for (int i = 0; i < n; i++)
+    {
         data >> tempKvadratas.x0;
         data >> tempKvadratas.y0;
         data >> tempKvadratas.dydis;
@@ -56,34 +63,47 @@ void skaitymas(vector<Kvadratas>& kvadratai){
     data.close();
 }
 
-void mapSurinkimas(vector<Kvadratas> kvadratai, Map& map){
-    for(int i = 0; i<kvadratai.size(); i++){
-
-        for(int j = kvadratai[i].x0; j<kvadratai[i].x0+kvadratai[i].dydis; j++){
-
-            for(int k = kvadratai[i].y0; k<kvadratai[i].y0+kvadratai[i].dydis; k++){
-
-                map.spalvos[j][k] = kvadratai[i].spalva;
-
-            }
+void kvadratoUzdejimas(Map &map, Kvadratas kvadratas)
+{
+    for (int j = kvadratas.x0; j < kvadratas.x0 + kvadratas.dydis; j++)
+    {
+        for (int k = kvadratas.y0; k < kvadratas.y0 + kvadratas.dydis; k++)
+        {
+            map.spalvos[j][k] = kvadratas.spalva;
         }
     }
 }
 
-void maxReiksmes(Map& map){
-    for(int i = 0; i<99; i++){
-        for(int j = 0; j<99; j++){
-            if(map.spalvos[i][j].utilised){
-                if(map.minX > i){
+void mapSurinkimas(vector<Kvadratas> kvadratai, Map &map)
+{
+    for (int i = 0; i < kvadratai.size(); i++)
+    {
+        kvadratoUzdejimas(map, kvadratai[i]);
+    }
+}
+
+void maxReiksmes(Map &map)
+{
+    for (int i = 0; i < 99; i++)
+    {
+        for (int j = 0; j < 99; j++)
+        {
+            if (map.spalvos[i][j].utilised)
+            {
+                if (map.minX > i)
+                {
                     map.minX = i;
                 }
-                if(map.minY > j){
+                if (map.minY > j)
+                {
                     map.minY = j;
                 }
-                if(map.maxX < i){
+                if (map.maxX < i)
+                {
                     map.maxX = i;
                 }
-                if(map.maxY < j){
+                if (map.maxY < j)
+                {
                     map.maxY = j;
                 }
             }
@@ -91,36 +111,44 @@ void maxReiksmes(Map& map){
     }
 }
 
-void printMap(Map map){
-    for(int i = 0; i<5; i++){
-
-        for(int j = 0; j<5; j++){
-            if(map.spalvos[i][j].utilised){
-
-            cout << map.spalvos[i][j].r << " " << map.spalvos[i][j].g << " " << map.spalvos[i][j].b << " ";
+void printMap(Map map)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            if (map.spalvos[i][j].utilised)
+            {
+                cout << map.spalvos[i][j].r << " " << map.spalvos[i][j].g << " " << map.spalvos[i][j].b << " ";
             }
         }
         cout << endl;
     }
 }
 
-void rez(Map map){
+void rez(Map map)
+{
     ofstream rez("U2rez.txt");
     rez << map.l1() << " " << map.l2() << endl;
-    for(int i = map.minX; i<map.maxX+1; i++){
-        for(int j = map.minY; j<map.maxY+1; j++){
-            if(map.spalvos[i][j].utilised){
-                rez << map.spalvos[i][j].r <<" "<< map.spalvos[i][j].g <<" "<< map.spalvos[i][j].b << endl;
+    for (int i = map.minX; i < map.maxX + 1; i++)
+    {
+        for (int j = map.minY; j < map.maxY + 1; j++)
+        {
+            if (map.spalvos[i][j].utilised)
+            {
+                rez << map.spalvos[j][i].r << " " << map.spalvos[j][i].g << " " << map.spalvos[j][i].b << endl;
             }
-            else{
-                rez << 255 <<" "<< 255 <<" "<< 255 << endl;
+            else
+            {
+                rez << 255 << " " << 255 << " " << 255 << endl;
             }
         }
     }
     rez.close();
 }
 
-int main(){
+int main()
+{
     Map map;
     vector<Kvadratas> kvadratai;
 
