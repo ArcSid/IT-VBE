@@ -23,36 +23,26 @@ void zirniuPardavimuSkaiciavimas(int &N1, int &N2,
     {
         int panaudotiN1 = 0;
         int panaudotiN2 = 0;
-        for (int j = 0; j < N2; j++)
+
+        while (pirkejuPageidavimai[i] - 2 >= 0)
         {
-            if (pirkejuPageidavimai[i] - 2 >= 0)
-            {
-                pirkejuPageidavimai[i] -= 2;
-                panaudotiN2++;
-            }
-            else
-            {
-                break;
-            }
+            pirkejuPageidavimai[i] -= 2;
+            panaudotiN2++;
         }
         N2 -= panaudotiN2;
-        for (int j = 0; j < N1; j++)
+
+        while (pirkejuPageidavimai[i] - 1 >= 0)
         {
-            if (pirkejuPageidavimai[i] - 1 >= 0)
-            {
-                pirkejuPageidavimai[i] -= 1;
-                panaudotiN1++;
-            }
-            else
-            {
-                break;
-            }
+            pirkejuPageidavimai[i] -= 1;
+            panaudotiN1++;
         }
         N1 -= panaudotiN1;
+
         paskutinioPirkejoZirniuKiekis = panaudotiN1 + panaudotiN2 * 2;
         parduotaN1 += panaudotiN1;
         parduotaN2 += panaudotiN2;
         aptarnautuPirkejuKiekis++;
+
         if (pirkejuPageidavimai[i] > 0)
         {
             break;
