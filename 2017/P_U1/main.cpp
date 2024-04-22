@@ -11,47 +11,23 @@ struct Spalva
     int b;
 };
 
+int hexToInt(char hex)
+{
+    return hex < 48 + 10 ? hex - 48 : hex - 55;
+}
+
 int hexToInt(string hex)
 {
-    int result = 0;
-
-    if (hex[0] - 48 < 10)
-    {
-        result += 16 * (hex[0] - 48);
-    }
-    else
-    {
-        result += 16 * (hex[0] - 55);
-    }
-
-    if (hex[1] - 48 < 10)
-    {
-        result += hex[1] - 48;
-    }
-    else
-    {
-        result += hex[1] - 55;
-    }
-    return result;
+    return 16 * hexToInt(hex[0]) + hexToInt(hex[1]);
 }
 
 void rgbReiksmes(vector<Spalva> &spalvos)
 {
     for (int i = 0; i < spalvos.size(); i++)
     {
-        string dvizenklis = "";
-        dvizenklis += spalvos[i].reiksme[0];
-        dvizenklis += spalvos[i].reiksme[1];
-        spalvos[i].r = hexToInt(dvizenklis);
-        dvizenklis = "";
-        dvizenklis += spalvos[i].reiksme[2];
-        dvizenklis += spalvos[i].reiksme[3];
-        spalvos[i].g = hexToInt(dvizenklis);
-        dvizenklis = "";
-        dvizenklis += spalvos[i].reiksme[4];
-        dvizenklis += spalvos[i].reiksme[5];
-        spalvos[i].b = hexToInt(dvizenklis);
-        dvizenklis = "";
+        spalvos[i].r = hexToInt(spalvos[i].reiksme.substr(0, 2));
+        spalvos[i].g = hexToInt(spalvos[i].reiksme.substr(2, 2));
+        spalvos[i].b = hexToInt(spalvos[i].reiksme.substr(4, 2));
     }
 }
 
@@ -60,13 +36,16 @@ void skaitymas(int &x, int &y, vector<Spalva> &spalvos)
     int spalvuKiekis;
     Spalva temp;
     ifstream data("U1.txt");
+
     data >> x >> y;
     spalvuKiekis = x * y;
+
     for (int i = 0; i < spalvuKiekis; i++)
     {
         data >> temp.reiksme;
         spalvos.push_back(temp);
     }
+
     data.close();
 }
 
@@ -76,7 +55,7 @@ void rez(int x, int y, vector<Spalva> spalvos)
     for (int i = 0; i < spalvos.size(); i++)
     {
         bool kabliataskis = true;
-        if (i % y == 0 && i!=0)
+        if (i % y == 0 && i != 0)
         {
             rez << endl;
         }
