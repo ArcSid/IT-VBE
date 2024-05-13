@@ -1,0 +1,15 @@
+4
+Gailuva         3
+Dubysos universitetas        45
+Petro universitetas          55
+Baltijos kolegija            9
+Bambukija       1
+Bambuko muzikos akademija    35
+Guglija         2
+Medienos apdorojimo kolegija 14
+Turizmo kolegija             13
+Baltieji lokiai 4
+Baltasis universitetas       10
+Pilkasis universitetas       15
+Rudoji kolegija              8
+Spalvos kolegija             99
