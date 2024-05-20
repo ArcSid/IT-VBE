@@ -1,118 +1,91 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include <iomanip>
 using namespace std;
 
-struct Savivaldybe
-{
-    string miestasKuriamPriklauso;
-    int mokykluKiekis;
-};
-
-struct Miestas
+struct Apskritis
 {
     string pavadinimas;
-    vector<int> mokykuKiekiaiSavivaldybese;
-    int didziausiasMokykluKiekisSavivaldybeje;
+    int miestuKiekis = 0;
+    int maxMokykluKiekis;
 };
 
-int rastiMaximuma(vector<int> masyvas)
-{
-    int max_i = 0;
-    for (int i = 0; i < masyvas.size(); i++)
-    {
-        if (masyvas[max_i] < masyvas[i])
-        {
-            max_i = i;
-        }
-    }
-    return masyvas[max_i];
-}
-
-void skaitytiIsFailo(int &savivaldybiuKiekis, Savivaldybe savivaldybes[])
+void skaitytiIsFailo(int &apskriciuKiekis, Apskritis apskritys[])
 {
     ifstream data("U2.txt");
-    data >> savivaldybiuKiekis;
+    int miestuKiekis;
+    int mokykluKiekisMieste;
+    string apskritiesPavadinimas;
+    data >> miestuKiekis;
 
-    string laikinasSakinys;
+    string miestoPavadinimas;
 
-    for (int i = 0; i < savivaldybiuKiekis; i++)
+    for (int i = 0; i < miestuKiekis; i++)
     {
-        data >> laikinasSakinys;
-        data >> savivaldybes[i].mokykluKiekis;
-        data >> savivaldybes[i].miestasKuriamPriklauso;
+        // savivaldybes == miesto pavadinimas
+        data >> miestoPavadinimas;
+
+        data >> mokykluKiekisMieste;
+        data >> apskritiesPavadinimas;
+        bool naujaApskritis = true;
+
+        for (int j = 0; j < apskriciuKiekis; j++)
+        {
+            if (apskritys[j].pavadinimas == apskritiesPavadinimas)
+            {
+                apskritys[j].miestuKiekis++;
+                if (apskritys[j].maxMokykluKiekis < mokykluKiekisMieste)
+                {
+                    apskritys[j].maxMokykluKiekis = mokykluKiekisMieste;
+                }
+                naujaApskritis = false;
+                break;
+            }
+        }
+        if (naujaApskritis)
+        {
+            apskritys[apskriciuKiekis].pavadinimas = apskritiesPavadinimas;
+            apskritys[apskriciuKiekis].maxMokykluKiekis = mokykluKiekisMieste;
+            apskritys[apskriciuKiekis].miestuKiekis++;
+            apskriciuKiekis++;
+        }
     }
     data.close();
 }
 
-void sudetiSavivaldybesIMiestus(int savivaldybiuKiekis, Savivaldybe savivaldybes[], int &miestuKiekis, Miestas miestai[])
+void surikiuotiApskritis(int apskriciuKiekis, Apskritis apskritys[])
 {
-    for (int i = 0; i < savivaldybiuKiekis; i++)
+    for (int i = 0; i < apskriciuKiekis; i++)
     {
-        bool naujasMiestas = true;
-
-        for (int j = 0; j < miestuKiekis; j++)
+        for (int j = 0; j < apskriciuKiekis - 1 - i; j++)
         {
-            if (miestai[j].pavadinimas == savivaldybes[i].miestasKuriamPriklauso)
+            if (apskritys[j].maxMokykluKiekis < apskritys[j + 1].maxMokykluKiekis)
             {
-                naujasMiestas = false;
-                miestai[j].mokykuKiekiaiSavivaldybese.push_back(savivaldybes[i].mokykluKiekis);
-                break;
+                swap(apskritys[j], apskritys[j + 1]);
             }
-        }
-        if (!naujasMiestas)
-        {
-            continue;
-        }
-
-        miestai[miestuKiekis].pavadinimas = savivaldybes[i].miestasKuriamPriklauso;
-        miestai[miestuKiekis].mokykuKiekiaiSavivaldybese.push_back(savivaldybes[i].mokykluKiekis);
-        miestuKiekis++;
-    }
-}
-
-void surikiuotiMiestus(int miestuKiekis, Miestas miestai[])
-{
-    for (int i = 0; i < miestuKiekis; i++)
-    {
-        for (int j = 0; j < miestuKiekis - 1 - i; j++)
-        {
-            if (miestai[j].didziausiasMokykluKiekisSavivaldybeje < miestai[j + 1].didziausiasMokykluKiekisSavivaldybeje)
+            else if (apskritys[j].maxMokykluKiekis == apskritys[j + 1].maxMokykluKiekis && apskritys[j].pavadinimas > apskritys[j + 1].pavadinimas)
             {
-                swap(miestai[j], miestai[j + 1]);
+                swap(apskritys[j], apskritys[j + 1]);
             }
         }
     }
 }
 
-void rez(int miestuKiekis, Miestas miestai[])
+void rez(int apskriciuKiekis, Apskritis apskritys[])
 {
     ofstream rez("U2rez.txt");
-    for (int i = 0; i < miestuKiekis; i++)
+    for (int i = 0; i < apskriciuKiekis; i++)
     {
-        rez << left << setw(14) << miestai[i].pavadinimas << miestai[i].mokykuKiekiaiSavivaldybese.size() << " " << miestai[i].didziausiasMokykluKiekisSavivaldybeje << endl;
+        rez << left << setw(14) << apskritys[i].pavadinimas << apskritys[i].miestuKiekis << " " << apskritys[i].maxMokykluKiekis << endl;
     }
     rez.close();
 }
 
 int main()
 {
-    int savivaldybiuKiekis;
-    Savivaldybe savivaldybes[60];
-    skaitytiIsFailo(savivaldybiuKiekis, savivaldybes);
-
-    int miestuKiekis = 0;
-    Miestas miestai[60];
-    sudetiSavivaldybesIMiestus(savivaldybiuKiekis, savivaldybes, miestuKiekis, miestai);
-
-    for (int i = 0; i < miestuKiekis; i++)
-    {
-        miestai[i].didziausiasMokykluKiekisSavivaldybeje = rastiMaximuma(miestai[i].mokykuKiekiaiSavivaldybese);
-    }
-
-    surikiuotiMiestus(miestuKiekis, miestai);
-    rez(miestuKiekis, miestai);
-
-    return 0;
+    int apskriciuKiekis = 0;
+    Apskritis apskritys[60];
+    skaitytiIsFailo(apskriciuKiekis, apskritys);
+    surikiuotiApskritis(apskriciuKiekis, apskritys);
+    rez(apskriciuKiekis, apskritys);
 }

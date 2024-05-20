@@ -33,14 +33,12 @@ void skaiciuotiKiekAptarnavoIrNuvaziavo(int &aptarnautuKiekis, int &nuvaziavo, i
 {
     for (int i = 0; i < uzsakovai.size(); i++)
     {
-        if (uzsakovai[i].atstumasNuoPicerijosIrAtgal() + nuvaziavo > kilometrazas)
-        {
-            nuvaziavo += uzsakovai[i].atstumasNuoPicerijosIrAtgal();
-            aptarnautuKiekis++;
-            break;
-        }
         nuvaziavo += uzsakovai[i].atstumasNuoPicerijosIrAtgal();
         aptarnautuKiekis++;
+        if (nuvaziavo > kilometrazas)
+        {
+            break;
+        }
     }
 }
 
