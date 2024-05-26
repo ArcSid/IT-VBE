@@ -1,0 +1,32 @@
+Pradinis sąrašas:
+Albania Australia 12
+Albania Azerbaijan 10
+Albania Armenia 8
+Albania Austria 6
+Armenia Australia 12
+Armenia Austria 10
+Armenia Azerbaijan 8
+Armenia Albania 2
+Australia Armenia 12
+Australia Austria 10
+Australia Albania 8
+Australia Azerbaijan 6
+Austria Armenia 12
+Austria Albania 10
+Austria Australia 9
+Austria Azerbaijan 8
+Azerbaijan Albania 12
+Azerbaijan Armenia 10
+Azerbaijan Austria 8
+Azerbaijan Australia 6
+
+Šalių gauti taškai:
+Albania 32
+Armenia 42
+Australia 39
+Austria 34
+Azerbaijan 32
+
+Daugiausiai 2 kartų(-us) vienai šaliai
+buvo skirta 12 balų
+Šios šalys yra: Armenia Australia 
